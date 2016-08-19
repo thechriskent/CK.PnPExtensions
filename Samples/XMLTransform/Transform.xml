@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<actions xmlns:pnp="http://schemas.dev.office.com/PnP/2016/05/ProvisioningSchema">
+
+	<!-- Adds a ContentTypeBinding to the My Custom List ListInstance that will remove the Item ContentType from the list -->
+	<add path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='My Custom List']/pnp:ContentTypeBindings">
+		<pnp:ContentTypeBinding ContentTypeID="0x01" Remove="true"/>
+	</add>
+	
+	<!-- Adds a FieldRef to the My Custo List ListInstance for Title that overrides the DisplayName -->
+	<add path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='My Custom List']/pnp:FieldRefs">
+		<pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Choice" />
+	</add>
+	
+	<!-- Removes the My Unwanted List list instance altogether -->
+	<remove path="//pnp:ListInstance[@Title='My Unwanted List']"/>
+	
+	<!-- Overrides the EnableAttachments property for the My Custom List Listinstance regardless of the actual site's setting -->
+	<attribute path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='My Custom List']" name="EnableAttachments">true</attribute>
+	
+	<!-- Removes the EnableFolderCreation attribute from the My Customer List ListInstance (don't really do this, just an example) -->
+	<attribute path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='My Custom List']" name="EnableFolderCreation"></attribute>
+	
+	<!-- Adds the someAttribute property to all of the ContentTypeBindings for the My Custom List list instance with the value of pretty pony -->
+	<attribute path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='My Custom List']/pnp:ContentTypeBindings" name="someAttribute">pretty pony</attribute>
+
+	</actions>
