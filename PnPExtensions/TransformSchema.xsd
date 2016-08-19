@@ -4,6 +4,15 @@
     xmlns="http://thechriskent.com/TransformSchema.xsd"
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+  <xs:simpleType name="add-location">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="append"/>
+      <xs:enumeration value="prepend"/>
+      <xs:enumeration value="before"/>
+      <xs:enumeration value="after"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
   <xs:element name="actions">
     <xs:complexType>
       <xs:choice minOccurs="1" maxOccurs="unbounded">
@@ -19,6 +28,11 @@
             <xs:attribute name="path" type="xs:string" use="required">
               <xs:annotation>
                 <xs:documentation>xPath to the targeted element(s)</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="location" type="add-location" use="optional">
+              <xs:annotation>
+                <xs:documentation>Default is append, otherwise determines where inner element(s) are inserted relative to the targeted element(s)</xs:documentation>
               </xs:annotation>
             </xs:attribute>
           </xs:complexType>

@@ -6,8 +6,8 @@
 		<pnp:ContentTypeBinding ContentTypeID="0x01" Remove="true"/>
 	</add>
 	
-	<!-- Adds a FieldRef to the My Custo List ListInstance for Title that overrides the DisplayName -->
-	<add path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='My Custom List']/pnp:FieldRefs">
+	<!-- Adds a FieldRef to the My Custom List ListInstance for Title that overrides the DisplayName and adds it to the top of the elements -->
+	<add path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='My Custom List']/pnp:FieldRefs" location="prepend">
 		<pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" DisplayName="Choice" />
 	</add>
 	
