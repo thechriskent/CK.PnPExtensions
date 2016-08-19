@@ -75,9 +75,15 @@ namespace CK.PnPExtensions
                         XmlNodeList targetNodes = doc.SelectNodes(path.Value, nspMgr);
                         if (targetNodes != null)
                         {
-                            switch (action.LocalName)
+                            switch (action.LocalName.ToLower())
                             {
                                 case "add":
+                                    string locationValue = "append";
+                                    XmlAttribute location = action.Attributes["location"];
+                                    if (location != null && !string.IsNullOrEmpty(location.Value))
+                                    {
+                                        locationValue = location.Value;
+                                    }
                                     //add actions append any child elements of the action to the targeted element
                                     foreach (XmlNode entry in action.ChildNodes)
                                     {
@@ -85,7 +91,22 @@ namespace CK.PnPExtensions
                                         {
                                             //We import the node to both copy it and make it possible to copy from one doc to another
                                             XmlNode importedNode = doc.ImportNode(entry, true);
-                                            target.AppendChild(importedNode);
+                                            switch (locationValue.ToLower())
+                                            {
+                                                case "prepend":
+                                                    target.PrependChild(importedNode);
+                                                    break;
+                                                case "before":
+                                                    target.ParentNode.InsertBefore(importedNode, target);
+                                                    break;
+                                                case "after":
+                                                    target.ParentNode.InsertAfter(importedNode, target);
+                                                    break;
+                                                default:
+                                                    target.AppendChild(importedNode);
+                                                    break;
+                                            }
+                                            
                                         }
                                     }
 
