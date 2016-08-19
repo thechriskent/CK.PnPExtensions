@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://thechriskent.com/TransformSchema.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://thechriskent.com/TransformSchema.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="actions">
+    <xs:complexType>
+      <xs:choice minOccurs="1" maxOccurs="unbounded">
+        
+        <xs:element name="add">
+          <xs:annotation>
+            <xs:documentation>Adds the inner element(s) to the targeted element(s)</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:any processContents="skip" minOccurs="1"/>
+            </xs:sequence>
+            <xs:attribute name="path" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation>xPath to the targeted element(s)</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        
+        <xs:element name="remove">
+          <xs:annotation>
+            <xs:documentation>Removes the targeted element(s)</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="path" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation>xPath to the targeted element(s)</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        
+        <xs:element name="attribute">
+          <xs:annotation>
+            <xs:documentation>When a value (innertext) is provided, the target element(s) attribute is set to the value, when no value provided, then the attribute is removed</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="path" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation>xPath to the targeted element(s)</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="name" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation>The name of the targeted attribute)</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  
+</xs:schema>

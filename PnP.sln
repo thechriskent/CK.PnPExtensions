@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PnPExtensions", "PnPExtensions\PnPExtensions.csproj", "{BCE6FE35-145D-4C2F-80A4-2180CD4F9A61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExtension", "MyExtension\MyExtension.csproj", "{CE178117-6D46-4F84-B786-4CE97775BC1D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BCE6FE35-145D-4C2F-80A4-2180CD4F9A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCE6FE35-145D-4C2F-80A4-2180CD4F9A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCE6FE35-145D-4C2F-80A4-2180CD4F9A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCE6FE35-145D-4C2F-80A4-2180CD4F9A61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE178117-6D46-4F84-B786-4CE97775BC1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE178117-6D46-4F84-B786-4CE97775BC1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE178117-6D46-4F84-B786-4CE97775BC1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE178117-6D46-4F84-B786-4CE97775BC1D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
