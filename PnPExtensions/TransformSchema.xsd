@@ -53,7 +53,7 @@
         
         <xs:element name="attribute">
           <xs:annotation>
-            <xs:documentation>When a value (innertext) is provided, the target element(s) attribute is set to the value, when no value provided, then the attribute is removed</xs:documentation>
+            <xs:documentation>When a value is provided, the target element(s) attribute is set to the value, when no value provided, then the attribute is removed</xs:documentation>
           </xs:annotation>
           <xs:complexType>
             <xs:attribute name="path" type="xs:string" use="required">
@@ -64,6 +64,11 @@
             <xs:attribute name="name" type="xs:string" use="required">
               <xs:annotation>
                 <xs:documentation>The name of the targeted attribute)</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="value" type="xs:string" use="optional">
+              <xs:annotation>
+                <xs:documentation>The value for the attribute (if missing, then attribute is removed from target element(s))</xs:documentation>
               </xs:annotation>
             </xs:attribute>
           </xs:complexType>

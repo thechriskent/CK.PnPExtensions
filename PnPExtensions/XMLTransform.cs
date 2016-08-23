@@ -121,36 +121,36 @@ namespace CK.PnPExtensions
                                 case "attribute":
                                     //attribute actions can either add, set, or remove an attribute from the targeted element(s)
                                     // in addition to path, the name attribute is required. This is the name of the attribute to be used in the targeted element(s)
-                                    // the actions value (innertext) determines how the targeted element(s) attribute is processed
-                                    //   blank values result in the removal of the attribute from the targeted element(s) if they exist
+                                    // the actions value attribute determines how the targeted element(s) attribute is processed
+                                    //   missing attribute value results in the removal of the attribute from the targeted element(s) if they exist
                                     //   if the targeted element(s) has the attribute, the value is set
                                     //   if the targeted element(s) don't have the attribute, they get it
                                     XmlAttribute attrNameNode = action.Attributes["name"];
+                                    XmlAttribute attrValueNode = action.Attributes["value"];
                                     if (attrNameNode != null)
                                     {
                                         string attrName = attrNameNode.Value;
-                                        string attrValue = action.InnerText;
                                         foreach (XmlNode target in targetNodes)
                                         {
                                             XmlAttribute targetAttr = target.Attributes[attrName];
                                             if (targetAttr != null)
                                             {
-                                                if (string.IsNullOrEmpty(attrValue))
+                                                if (attrValueNode == null)
                                                 {
-                                                    //attribute found in the targeted element, but the action value is nothing so Remove it!
+                                                    //attribute found in the targeted element, but the action value is missing so Remove it!
                                                     target.Attributes.RemoveNamedItem(attrName);
                                                 }
                                                 else
                                                 {
                                                     //attribute found in the targeted element, so override it's value with the action value
-                                                    targetAttr.Value = attrValue;
+                                                    targetAttr.Value = attrValueNode.Value;
                                                 }
                                             }
-                                            else if (!string.IsNullOrEmpty(attrValue))
+                                            else if (attrValueNode != null)
                                             {
                                                 //attribute not found in the targeted element, so add it and set the value to the action value
                                                 targetAttr = doc.CreateAttribute(attrName);
-                                                targetAttr.Value = attrValue;
+                                                targetAttr.Value = attrValueNode.Value;
                                                 target.Attributes.Append(targetAttr);
                                             }
 
