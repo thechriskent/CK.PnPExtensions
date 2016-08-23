@@ -73,7 +73,7 @@ namespace CK.PnPExtensions
                     {
                         //Now we go get that element(s) from the template (if not found, we just move on)
                         XmlNodeList targetNodes = doc.SelectNodes(path.Value, nspMgr);
-                        if (targetNodes != null)
+                        if (targetNodes != null && targetNodes.Count > 0)
                         {
                             switch (action.LocalName.ToLower())
                             {
@@ -153,7 +153,70 @@ namespace CK.PnPExtensions
                                                 targetAttr.Value = attrValueNode.Value;
                                                 target.Attributes.Append(targetAttr);
                                             }
-
+                                        }
+                                    }
+                                    break;
+                                case "reorder":
+                                    //reorder actions are used to reorder the chidren of the targeted element(s)
+                                    // in addition to path, the key attribute is required. This is the name of the attribute to be used to reorder the children
+                                    // the order attribute is also required and uses the values of the key attribute to determine order
+                                    // an optional position attribute (default = top) determines where the ordered items are placed in relation to the unordered
+                                    //   top = ordered items are placed at the top and any unnamed (unordered) elements are placed in their original order afterwards
+                                    //   bottom = ordered items are placed below any unnamed (unordered) elements which remain in their original order
+                                    XmlAttribute attrKeyNode = action.Attributes["key"];
+                                    XmlAttribute attrOrderNode = action.Attributes["order"];
+                                    XmlAttribute attrPositionNode = action.Attributes["position"];
+                                    string positionValue = "top";
+                                    if (attrPositionNode != null)
+                                    {
+                                        positionValue = attrPositionNode.Value;
+                                    }
+                                    if (attrKeyNode != null && attrOrderNode != null)
+                                    {
+                                        string attrKeyValue = attrKeyNode.Value;
+                                        string attrOrderValue = attrOrderNode.Value;
+                                        if (!String.IsNullOrEmpty(attrKeyValue) && !String.IsNullOrEmpty(attrOrderValue))
+                                        {
+                                            string[] orderedValues = attrOrderValue.Split(',');
+                                            if (positionValue == "top")
+                                            {
+                                                //need to reverse the order so that we can use prepend
+                                                orderedValues = orderedValues.Reverse().ToArray();
+                                            }
+                                            foreach (XmlNode target in targetNodes)
+                                            {
+                                                if (target.ChildNodes.Count > 0)
+                                                {
+                                                    foreach (string orderedValue in orderedValues)
+                                                    {
+                                                        XmlNodeList matchingChildren = target.SelectNodes(string.Format("./*[@{0}='{1}']", attrKeyValue, orderedValue));
+                                                        if (matchingChildren != null && matchingChildren.Count > 0)
+                                                        {
+                                                            foreach (XmlNode matchedChild in matchingChildren)
+                                                            {
+                                                                //remove each found element (so we can add it back in the right order)
+                                                                target.RemoveChild(matchedChild);
+                                                            }
+                                                            if (positionValue == "top")
+                                                            {
+                                                                //cycle in reverse order to preserve order of duplicate value ordered items
+                                                                for (int m = matchingChildren.Count-1; m >= 0; m--)
+                                                                {
+                                                                    target.PrependChild(matchingChildren[m]);
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                foreach (XmlNode matchedChild in matchingChildren)
+                                                                {
+                                                                    //slap it on the end!
+                                                                    target.AppendChild(matchedChild);
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                     break;

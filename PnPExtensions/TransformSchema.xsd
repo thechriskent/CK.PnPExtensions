@@ -12,6 +12,13 @@
       <xs:enumeration value="after"/>
     </xs:restriction>
   </xs:simpleType>
+
+  <xs:simpleType name="reorder-position">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="top"/>
+      <xs:enumeration value="bottom"/>
+    </xs:restriction>
+  </xs:simpleType>
   
   <xs:element name="actions">
     <xs:complexType>
@@ -73,6 +80,35 @@
             </xs:attribute>
           </xs:complexType>
         </xs:element>
+
+        <xs:element name="reorder">
+          <xs:annotation>
+            <xs:documentation>Reorders the child elements of the targeted element(s)</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="path" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation>xPath to the targeted element(s)</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="key" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation>The name of the attribute to be used to reorder the children</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="order" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation>Comma separated list of values used to determine order of children</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="position" type="reorder-position" use="optional">
+              <xs:annotation>
+                <xs:documentation>Default is top, otherwise determines where ordered children are placed in relation to unordered children</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        
       </xs:choice>
     </xs:complexType>
   </xs:element>
