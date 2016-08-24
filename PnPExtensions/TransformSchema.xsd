@@ -223,6 +223,9 @@
         </xs:element>
 
         <xs:element name="actions" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>1 or more transformation actions to be applied to the template. Tokens can be used throughout for attribute names and values, element names, inner text, etc.</xs:documentation>
+          </xs:annotation>
           <xs:complexType>
           <xs:all minOccurs="1">
 
@@ -244,6 +247,16 @@
                     <xs:documentation>Default is append, otherwise determines where inner element(s) are inserted relative to the targeted element(s)</xs:documentation>
                   </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="if" type="xs:string" use="optional">
+                  <xs:annotation>
+                    <xs:documentation>When "false", the action won't be executed.</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="not" type="xs:string" use="optional">
+                  <xs:annotation>
+                    <xs:documentation>When "true", the action won't be executed. Ignored, when if attribute is present.</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
               </xs:complexType>
             </xs:element>
 
@@ -255,6 +268,16 @@
                 <xs:attribute name="path" type="xs:string" use="required">
                   <xs:annotation>
                     <xs:documentation>xPath to the targeted element(s)</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="if" type="xs:string" use="optional">
+                  <xs:annotation>
+                    <xs:documentation>When "false", the action won't be executed.</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="not" type="xs:string" use="optional">
+                  <xs:annotation>
+                    <xs:documentation>When "true", the action won't be executed. Ignored, when if attribute is present.</xs:documentation>
                   </xs:annotation>
                 </xs:attribute>
               </xs:complexType>
@@ -278,6 +301,16 @@
                 <xs:attribute name="value" type="xs:string" use="optional">
                   <xs:annotation>
                     <xs:documentation>The value for the attribute (if missing, then attribute is removed from target element(s))</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="if" type="xs:string" use="optional">
+                  <xs:annotation>
+                    <xs:documentation>When "false", the action won't be executed.</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="not" type="xs:string" use="optional">
+                  <xs:annotation>
+                    <xs:documentation>When "true", the action won't be executed. Ignored, when if attribute is present.</xs:documentation>
                   </xs:annotation>
                 </xs:attribute>
               </xs:complexType>
@@ -306,6 +339,16 @@
                 <xs:attribute name="position" type="reorder-position" use="optional">
                   <xs:annotation>
                     <xs:documentation>Default is top, otherwise determines where ordered children are placed in relation to unordered children</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="if" type="xs:string" use="optional">
+                  <xs:annotation>
+                    <xs:documentation>When "false", the action won't be executed.</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="not" type="xs:string" use="optional">
+                  <xs:annotation>
+                    <xs:documentation>When "true", the action won't be executed. Ignored, when if attribute is present.</xs:documentation>
                   </xs:annotation>
                 </xs:attribute>
               </xs:complexType>
