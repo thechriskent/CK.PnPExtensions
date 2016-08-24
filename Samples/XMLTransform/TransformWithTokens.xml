@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <transform xmlns:pnp="http://schemas.dev.office.com/PnP/2016/05/ProvisioningSchema">
 	<tokens start="_." end="._">
-		<token name="HToken" type="simple" value="Hello"/>
-		<token name="WToken" value="World"/>
-		<token name="Magic" value="_.HToken._ _.WToken._!"/>
-		<token name="MyPath" value="Template"/>
-		<token name="horsey" value="pnp:horse" />
-		<token name="PollsDefaultCTID" type="path" value="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings/pnp:ContentTypeBinding[@Default='true']/@ContentTypeID"/>
-		<token name="PollsCTBs" type="path" value="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings" />
-		<token name="PollsCTBsFull" type="path" value="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings" includeself="true"/>
+		<simple name="HToken" value="Hello"/>
+		<simple name="WToken" value="World"/>
+		<simple name="Magic" value="_.HToken._ _.WToken._!"/>
+		<simple name="MyPath" value="Template"/>
+		<simple name="horsey" value="pnp:horse" />
+		<path name="PollsDefaultCTID" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings/pnp:ContentTypeBinding[@Default='true']/@ContentTypeID"/>
+		<path name="PollsCTBs" type="path" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings" />
+		<path name="PollsCTBsFull" type="path" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings" includeself="true"/>
 	</tokens>
 	
 	<actions>

@@ -266,21 +266,20 @@ namespace CK.PnPExtensions
                 foreach (XmlNode token in tokensNode)
                 {
                     XmlAttribute nameNode = token.Attributes["name"];
-                    XmlAttribute valueNode = token.Attributes["value"];
-                    if(nameNode != null && !String.IsNullOrEmpty(nameNode.Value)
-                        && valueNode != null && !String.IsNullOrEmpty(valueNode.Value))
+                    if(nameNode != null && !String.IsNullOrEmpty(nameNode.Value))
                     {
                         string nameValue = startValue + nameNode.Value + endValue;
-                        string valueValue = valueNode.Value;
-                        string typeValue = "simple";
-                        XmlAttribute typeNode = token.Attributes["type"];
-                        if (typeNode != null) { typeValue = typeNode.Value; }
-                        switch (typeValue.ToLower())
+                        string tokenType = token.LocalName;
+                        switch (tokenType.ToLower())
                         {
                             case "path":
-                                XmlNode tokenPathNode = template.SelectSingleNode(valueValue,nspMgr);
-                                if (tokenPathNode != null)
+                                XmlAttribute pathNode = token.Attributes["path"];
+                                string pathValue = pathNode.Value;
+                                XmlNodeList tokenPathNodes = template.SelectNodes(pathValue,nspMgr);
+                                if (tokenPathNodes != null && tokenPathNodes.Count > 0)
                                 {
+                                    //if more than one returned, just take the first
+                                    XmlNode tokenPathNode = tokenPathNodes[0];
                                     string tokenPathValue;
                                     if (tokenPathNode.NodeType == XmlNodeType.Attribute)
                                     {
@@ -305,6 +304,8 @@ namespace CK.PnPExtensions
                                 break;
                             default:
                                 //simple token
+                                XmlAttribute valueNode = token.Attributes["value"];
+                                string valueValue = valueNode.Value;
                                 tokens.Add(nameValue, DecodeString(tokens, valueValue));
                                 break;
                         }
