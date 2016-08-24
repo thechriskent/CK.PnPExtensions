@@ -300,7 +300,7 @@ namespace CK.PnPExtensions
                                 {
                                     bool includeselfValue = false;
                                     XmlAttribute includeselfNode = token.Attributes["includeself"];
-                                    if (includeselfNode != null && includeselfNode.Value == "true") { includeselfValue = true; }
+                                    if (includeselfNode != null && DecodeString(tokens,includeselfNode.Value) == "true") { includeselfValue = true; }
                                     if (includeselfValue)
                                     {
                                         tokenPathValue = tokenPathNode.OuterXml;
