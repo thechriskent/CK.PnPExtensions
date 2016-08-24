@@ -18,13 +18,13 @@
 		<equals name="ValueEquality" value="World!" compareto="_.WToken._" />
 		
 		<contains name="PathContains" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/@Url" compareto="Poll"/>
-		<contains name="ValueContains" value="_.Magic._" compareto="_.WToken._"/>
+		<contains name="ValueContains" value="_.Magic._" compareto="dog"/>
 		
-		<startswith name="PathStartsWith" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/@Url" compareto="Poll"/>
-		<startswith name="ValueStartsWith" value="_.Magic._" compareto="_.WToken._"/>
+		<startswith name="PathStartsWith" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/@Url" compareto="Lists"/>
+		<startswith name="ValueStartsWith" value="_.Magic._" compareto="_.HToken._"/>
 		
-		<endswith name="PathEndsWith" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/@Url" compareto="Poll"/>
-		<endswith name="ValueEndsWith" value="_.Magic._" compareto="_.WToken._"/>
+		<endswith name="PathEndsWith" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/@Url" compareto="Polls"/>
+		<endswith name="ValueEndsWith" value="_.Magic._" compareto="_.WToken._!"/>
 	</tokens>
 	
 	<actions>

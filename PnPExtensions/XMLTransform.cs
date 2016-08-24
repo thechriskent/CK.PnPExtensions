@@ -349,10 +349,25 @@ namespace CK.PnPExtensions
                                 }
                                 break;
                             case "contains":
+                                if (comparetoNode != null)
+                                {
+                                    if (tokenComparisonValue.Contains(tokenComparetoValue)) { tokens.Add(nameValue, "true"); }
+                                    else { tokens.Add(nameValue, "false"); }
+                                }
                                 break;
                             case "startswith":
+                                if (comparetoNode != null)
+                                {
+                                    if (tokenComparisonValue.StartsWith(tokenComparetoValue)) { tokens.Add(nameValue, "true"); }
+                                    else { tokens.Add(nameValue, "false"); }
+                                }
                                 break;
                             case "endswith":
+                                if (comparetoNode != null)
+                                {
+                                    if (tokenComparisonValue.EndsWith(tokenComparetoValue)) { tokens.Add(nameValue, "true"); }
+                                    else { tokens.Add(nameValue, "false"); }
+                                }
                                 break;
                             default:
                                 //simple token
