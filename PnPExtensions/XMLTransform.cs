@@ -72,9 +72,18 @@ namespace CK.PnPExtensions
             {
                 if (action.NodeType == XmlNodeType.Element)
                 {
+                    //conditional attributes
+                    bool shouldProceed = true;
+                    XmlAttribute ifNode = action.Attributes["if"];
+                    XmlAttribute notNode = action.Attributes["not"];
+                    //if takes priority. Anything other than the string false will be counted as true (Will Proceed)
+                    // not is only used when if isn't present. Anything other than the string true will be counted as false (Will Proceed)
+                    if (ifNode != null && DecodeString(tokens,ifNode.Value) == "false") { shouldProceed = false; }
+                    else if (notNode != null && DecodeString(tokens,notNode.Value) == "true") { shouldProceed = false; }
+
                     //every action should have a path to identify the element(s) to apply the transform action to
                     XmlAttribute path = action.Attributes["path"];
-                    if (path != null && !string.IsNullOrEmpty(path.Value))
+                    if (shouldProceed && path != null && !string.IsNullOrEmpty(path.Value))
                     {
                         //Now we go get that element(s) from the template (if not found, we just move on)
                         XmlNodeList targetNodes = doc.SelectNodes(path.Value, nspMgr);
