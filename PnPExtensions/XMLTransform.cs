@@ -62,6 +62,11 @@ namespace CK.PnPExtensions
             XmlNamespaceManager nspMgrA = new XmlNamespaceManager(doc.NameTable);
             nspMgrA.AddNamespace("pnp", XMLConstants.PROVISIONING_SCHEMA_NAMESPACE_2016_05);
 
+            Dictionary<string, string> tokens = DecodeTokens(actions.SelectSingleNode("//tokens"));
+
+            XmlNode actionsNode = actions.SelectSingleNode("//actions", nspMgrA);
+            actionsNode.InnerXml = DecodeString(tokens, actionsNode.InnerXml);
+
             //The transform file is expected to contain a series of actions that are applied in order (so we loop through them)
             foreach (XmlNode action in actions.SelectSingleNode("//actions",nspMgrA).ChildNodes)
             {
@@ -245,6 +250,54 @@ namespace CK.PnPExtensions
             throw new NotImplementedException();
         }
 
-        
+
+        public Dictionary<string, string> DecodeTokens(XmlNode tokensNode)
+        {
+            Dictionary<string,string> tokens = new Dictionary<string, string>();
+            if (tokensNode != null && tokensNode.ChildNodes.Count > 0)
+            {
+                XmlAttribute startNode = tokensNode.Attributes["start"];
+                string startValue = "_.";
+                if (startNode != null) { startValue = startNode.Value; }
+                XmlAttribute endNode = tokensNode.Attributes["end"];
+                string endValue = "._";
+                if (endNode != null) { endValue = endNode.Value; }
+
+                foreach (XmlNode token in tokensNode)
+                {
+                    XmlAttribute nameNode = token.Attributes["name"];
+                    XmlAttribute valueNode = token.Attributes["value"];
+                    if(nameNode != null && !String.IsNullOrEmpty(nameNode.Value)
+                        && valueNode != null && !String.IsNullOrEmpty(valueNode.Value))
+                    {
+                        string nameValue = startValue + nameNode.Value + endValue;
+                        string valueValue = valueNode.Value;
+                        string typeValue = "simple";
+                        XmlAttribute typeNode = token.Attributes["type"];
+                        if (typeNode != null) { typeValue = typeNode.Value; }
+                        switch (typeValue.ToLower())
+                        {
+                            case "path":
+                                break;
+                            default:
+                                //simple token
+                                tokens.Add(nameValue, DecodeString(tokens, valueValue));
+                                break;
+                        }
+                    }
+                }
+            }
+            return tokens;
+        }
+
+        public string DecodeString(Dictionary<string, string> tokens, string encodedValue)
+        {
+            foreach (KeyValuePair<string,string> tokenKVP in tokens)
+            {
+                encodedValue = encodedValue.Replace(tokenKVP.Key, tokenKVP.Value);
+            }
+            return encodedValue;
+        }
+
     }
 }
