@@ -62,7 +62,7 @@ namespace CK.PnPExtensions
             XmlNamespaceManager nspMgrA = new XmlNamespaceManager(doc.NameTable);
             nspMgrA.AddNamespace("pnp", XMLConstants.PROVISIONING_SCHEMA_NAMESPACE_2016_05);
 
-            Dictionary<string, string> tokens = DecodeTokens(actions.SelectSingleNode("//tokens"));
+            Dictionary<string, string> tokens = DecodeTokens(actions.SelectSingleNode("//tokens"),doc,nspMgr);
 
             XmlNode actionsNode = actions.SelectSingleNode("//actions", nspMgrA);
             actionsNode.InnerXml = DecodeString(tokens, actionsNode.InnerXml);
@@ -251,7 +251,7 @@ namespace CK.PnPExtensions
         }
 
 
-        public Dictionary<string, string> DecodeTokens(XmlNode tokensNode)
+        public Dictionary<string, string> DecodeTokens(XmlNode tokensNode, XmlDocument template, XmlNamespaceManager nspMgr)
         {
             Dictionary<string,string> tokens = new Dictionary<string, string>();
             if (tokensNode != null && tokensNode.ChildNodes.Count > 0)
@@ -278,6 +278,30 @@ namespace CK.PnPExtensions
                         switch (typeValue.ToLower())
                         {
                             case "path":
+                                XmlNode tokenPathNode = template.SelectSingleNode(valueValue,nspMgr);
+                                if (tokenPathNode != null)
+                                {
+                                    string tokenPathValue;
+                                    if (tokenPathNode.NodeType == XmlNodeType.Attribute)
+                                    {
+                                        tokenPathValue = tokenPathNode.Value;
+                                    }
+                                    else
+                                    {
+                                        bool includeselfValue = false;
+                                        XmlAttribute includeselfNode = token.Attributes["includeself"];
+                                        if (includeselfNode != null && includeselfNode.Value == "true") { includeselfValue = true; }
+                                        if (includeselfValue)
+                                        {
+                                            tokenPathValue = tokenPathNode.OuterXml;
+                                        }
+                                        else
+                                        {
+                                            tokenPathValue = tokenPathNode.InnerXml;
+                                        }
+                                    }
+                                    tokens.Add(nameValue, DecodeString(tokens, tokenPathValue));
+                                }
                                 break;
                             default:
                                 //simple token

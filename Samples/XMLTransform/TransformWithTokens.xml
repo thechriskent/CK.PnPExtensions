@@ -7,6 +7,8 @@
 		<token name="MyPath" value="Template"/>
 		<token name="horsey" value="pnp:horse" />
 		<token name="PollsDefaultCTID" type="path" value="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings/pnp:ContentTypeBinding[@Default='true']/@ContentTypeID"/>
+		<token name="PollsCTBs" type="path" value="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings" />
+		<token name="PollsCTBsFull" type="path" value="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings" includeself="true"/>
 	</tokens>
 	
 	<actions>
@@ -21,6 +23,16 @@
 		<add path="pnp:Provisioning/pnp:Templates/pnp:Provisioning_.MyPath._">
 			<_.horsey._ wowsers="yip" />
 		</add>
-
+		<add path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate">
+			<someCTID ContentTypeID="_.PollsDefaultCTID._" />
+		</add>
+		<add path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate">
+			<magicContentBindings>
+				_.PollsCTBs._
+			</magicContentBindings>
+		</add>
+		<add path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate">
+			_.PollsCTBsFull._
+		</add>
 	</actions>
 </transform>
