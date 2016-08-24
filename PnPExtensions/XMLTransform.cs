@@ -270,43 +270,91 @@ namespace CK.PnPExtensions
                     {
                         string nameValue = startValue + nameNode.Value + endValue;
                         string tokenType = token.LocalName;
-                        switch (tokenType.ToLower())
+
+                        XmlAttribute pathNode = token.Attributes["path"];
+                        XmlAttribute valueNode = token.Attributes["value"];
+                        XmlAttribute comparetoNode = token.Attributes["compareto"];
+                        
+                        //calculate tokenValueValue
+                        string tokenValueValue = String.Empty;
+                        if (valueNode != null)
                         {
-                            case "path":
-                                XmlAttribute pathNode = token.Attributes["path"];
-                                string pathValue = pathNode.Value;
-                                XmlNodeList tokenPathNodes = template.SelectNodes(pathValue,nspMgr);
-                                if (tokenPathNodes != null && tokenPathNodes.Count > 0)
+                            tokenValueValue = DecodeString(tokens, valueNode.Value);
+                        }
+
+                        //calculate tokenPathValue
+                        string tokenPathValue = String.Empty;
+                        if (pathNode != null)
+                        {
+                            string pathValue = pathNode.Value;
+                            XmlNodeList tokenPathNodes = template.SelectNodes(pathValue, nspMgr);
+                            if (tokenPathNodes != null && tokenPathNodes.Count > 0)
+                            {
+                                //if more than one returned, just take the first
+                                XmlNode tokenPathNode = tokenPathNodes[0];
+                                if (tokenPathNode.NodeType == XmlNodeType.Attribute)
                                 {
-                                    //if more than one returned, just take the first
-                                    XmlNode tokenPathNode = tokenPathNodes[0];
-                                    string tokenPathValue;
-                                    if (tokenPathNode.NodeType == XmlNodeType.Attribute)
+                                    tokenPathValue = tokenPathNode.Value;
+                                }
+                                else
+                                {
+                                    bool includeselfValue = false;
+                                    XmlAttribute includeselfNode = token.Attributes["includeself"];
+                                    if (includeselfNode != null && includeselfNode.Value == "true") { includeselfValue = true; }
+                                    if (includeselfValue)
                                     {
-                                        tokenPathValue = tokenPathNode.Value;
+                                        tokenPathValue = tokenPathNode.OuterXml;
                                     }
                                     else
                                     {
-                                        bool includeselfValue = false;
-                                        XmlAttribute includeselfNode = token.Attributes["includeself"];
-                                        if (includeselfNode != null && includeselfNode.Value == "true") { includeselfValue = true; }
-                                        if (includeselfValue)
-                                        {
-                                            tokenPathValue = tokenPathNode.OuterXml;
-                                        }
-                                        else
-                                        {
-                                            tokenPathValue = tokenPathNode.InnerXml;
-                                        }
+                                        tokenPathValue = tokenPathNode.InnerXml;
                                     }
-                                    tokens.Add(nameValue, DecodeString(tokens, tokenPathValue));
                                 }
+                            }
+                        }
+                        tokenPathValue = DecodeString(tokens, tokenPathValue);
+
+                        //calculate tokenComparisonValue
+                        string tokenComparisonValue = String.Empty;
+                        if (comparetoNode != null)
+                        {
+                            if (pathNode != null) { tokenComparisonValue = tokenPathValue; }
+                            else if (valueNode != null) { tokenComparisonValue = tokenValueValue; }
+                        }
+
+                        //calculate tokenComparetoValue
+                        string tokenComparetoValue = String.Empty;
+                        if (comparetoNode != null)
+                        {
+                            tokenComparetoValue = DecodeString(tokens, comparetoNode.Value);
+                        }
+
+
+                        switch (tokenType.ToLower())
+                        {
+                            case "path":
+                                if (pathNode != null)
+                                {
+                                    tokens.Add(nameValue, tokenPathValue);
+                                }
+                                break;
+                            case "exists":
+                                
+                                break;
+                            case "equals":
+                                break;
+                            case "contains":
+                                break;
+                            case "startswith":
+                                break;
+                            case "endswith":
                                 break;
                             default:
                                 //simple token
-                                XmlAttribute valueNode = token.Attributes["value"];
-                                string valueValue = valueNode.Value;
-                                tokens.Add(nameValue, DecodeString(tokens, valueValue));
+                                if (valueNode != null)
+                                {
+                                    tokens.Add(nameValue, tokenValueValue);
+                                }
                                 break;
                         }
                     }
