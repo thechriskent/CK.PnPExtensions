@@ -286,7 +286,7 @@ namespace CK.PnPExtensions
                         string tokenPathValue = String.Empty;
                         if (pathNode != null)
                         {
-                            string pathValue = pathNode.Value;
+                            string pathValue = DecodeString(tokens,pathNode.Value);
                             XmlNodeList tokenPathNodes = template.SelectNodes(pathValue, nspMgr);
                             if (tokenPathNodes != null && tokenPathNodes.Count > 0)
                             {
@@ -339,7 +339,27 @@ namespace CK.PnPExtensions
                                 }
                                 break;
                             case "exists":
-                                
+                                if (pathNode != null)
+                                {
+                                    //When a path, look for it to see if results are returned
+                                    try 
+	                                {	        
+		                                string pathToTest = DecodeString(tokens,pathNode.Value);
+                                        XmlNodeList testNodes = template.SelectNodes(pathToTest, nspMgr);
+                                        if (testNodes != null && testNodes.Count > 0) { tokens.Add(nameValue, "true"); }
+                                        else { tokens.Add(nameValue, "false"); }
+	                                }
+	                                catch (Exception)
+	                                {
+		                                tokens.Add(nameValue,"false");
+	                                }
+                                }
+                                else
+                                {
+                                    //When a value chek if string is null or empty
+                                    if (String.IsNullOrEmpty(tokenValueValue)) { tokens.Add(nameValue, "false"); }
+                                    else { tokens.Add(nameValue, "true"); }
+                                }
                                 break;
                             case "equals":
                                 if (comparetoNode != null)

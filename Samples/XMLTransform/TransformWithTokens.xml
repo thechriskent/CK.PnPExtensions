@@ -11,8 +11,8 @@
 		<path name="PollsCTBs" type="path" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings" />
 		<path name="PollsCTBsFull" type="path" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings" includeself="true"/>
 		
-		<exists name="PathExists" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']" />
-		<exists name="ValueExists" value="_.Magic._"/>
+		<exists name="PathExists" path="pnp:Provisioning/pnp:Templates/pnp:Provisioning_.MyPath._/pnp:Lists/pnp:ListInstance[@Title='Polls']" />
+		<exists name="ValueExists" value=""/>
 		
 		<equals name="PathEquality" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings/pnp:ContentTypeBinding[@Default='true']/@ContentTypeID" compareto="0x0100E6C746303DC4CA40A9B4E40E22FDAAD" />
 		<equals name="ValueEquality" value="World!" compareto="_.WToken._" />
