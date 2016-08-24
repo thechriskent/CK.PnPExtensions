@@ -6,9 +6,25 @@
 		<simple name="Magic" value="_.HToken._ _.WToken._!"/>
 		<simple name="MyPath" value="Template"/>
 		<simple name="horsey" value="pnp:horse" />
+		
 		<path name="PollsDefaultCTID" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings/pnp:ContentTypeBinding[@Default='true']/@ContentTypeID"/>
 		<path name="PollsCTBs" type="path" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings" />
 		<path name="PollsCTBsFull" type="path" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings" includeself="true"/>
+		
+		<exists name="PathExists" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']" />
+		<exists name="ValueExists" value="_.Magic._"/>
+		
+		<equals name="PathEquality" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/pnp:ContentTypeBindings/pnp:ContentTypeBinding[@Default='true']/@ContentTypeID" compareto="0x0100E6C746303DC4CA40A9B4E40E22FDAAD" />
+		<equals name="ValueEquality" value="World!" compareto="_.WToken._" />
+		
+		<contains name="PathContains" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/@Url" compareto="Poll"/>
+		<contains name="ValueContains" value="_.Magic._" compareto="_.WToken._"/>
+		
+		<startswith name="PathStartsWith" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/@Url" compareto="Poll"/>
+		<startswith name="ValueStartsWith" value="_.Magic._" compareto="_.WToken._"/>
+		
+		<endswith name="PathEndsWith" path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate/pnp:Lists/pnp:ListInstance[@Title='Polls']/@Url" compareto="Poll"/>
+		<endswith name="ValueEndsWith" value="_.Magic._" compareto="_.WToken._"/>
 	</tokens>
 	
 	<actions>
@@ -33,6 +49,10 @@
 		</add>
 		<add path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate">
 			_.PollsCTBsFull._
+		</add>
+		
+		<add path="pnp:Provisioning/pnp:Templates/pnp:ProvisioningTemplate">
+			<conditionalResults existsPath="_.PathExists._" existsValue="_.ValueExists._" equalsPath="_.PathEquality._" equalsValue="_.ValueEquality._" containsPath="_.PathContains._" containsValue="_.ValueContains._" startswithPath="_.PathStartsWith._" startswithValue="_.ValueStartsWith._" endswithPath="_.PathEndsWith._" endswithValue="_.ValueEndsWith._"/>
 		</add>
 	</actions>
 </transform>

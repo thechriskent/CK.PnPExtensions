@@ -342,6 +342,11 @@ namespace CK.PnPExtensions
                                 
                                 break;
                             case "equals":
+                                if (comparetoNode != null)
+                                {
+                                    if (tokenComparisonValue.Equals(tokenComparetoValue)) { tokens.Add(nameValue, "true"); }
+                                    else { tokens.Add(nameValue, "false"); }
+                                }
                                 break;
                             case "contains":
                                 break;
